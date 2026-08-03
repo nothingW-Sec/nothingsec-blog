@@ -1,0 +1,1 @@
+import rss from '@astrojs/rss';import {getPosts} from '../lib/posts';export async function GET(context){const posts=await getPosts();return rss({title:'边界之外',description:'网络安全 · 技术复盘 · 学习手记',site:context.site,items:posts.map(p=>({title:p.data.title,description:p.data.description,pubDate:p.data.publishDate,link:`/posts/${p.id}/`}))})}

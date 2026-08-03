@@ -1,0 +1,4 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";import PostCard from "../../components/PostCard.astro";import {getPosts} from "../../lib/posts";const posts=await getPosts();
+---
+<BaseLayout title="全部文章｜边界之外" description="边界之外的全部网络安全学习记录。"><main class="listing-page"><p class="eyebrow">ALL POSTS</p><h1>全部文章</h1><p class="page-lead">按时间查看所有公开的技术复盘与学习手记。</p><div class="post-list">{posts.map(post=><PostCard post={post}/>)}</div></main></BaseLayout>

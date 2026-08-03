@@ -1,0 +1,4 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";import PostCard from "../components/PostCard.astro";import Sidebar from "../components/Sidebar.astro";import {getPosts} from "../lib/posts";const posts=await getPosts();
+---
+<BaseLayout><main><section class="hero"><div class="hero-pattern"></div><div class="hero-copy"><p class="hero-kicker">SECURITY RESEARCH &amp; FIELD NOTES</p><h1>边界之外</h1><p>探索技术边界，记录每一次思考与突破</p><a href="/posts/">开始阅读 ↓</a></div></section><div class="content-shell home-layout"><section class="post-stream">{posts.map(post=><PostCard post={post}/>)}</section><Sidebar/></div></main></BaseLayout>

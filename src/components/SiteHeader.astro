@@ -1,0 +1,13 @@
+---
+const links=[["/","首页"],["/posts/","文章"],["/categories/","分类"],["/tags/","标签"],["/about/","关于"]];
+---
+<header class="site-header"><div class="nav-wrap"><a class="brand" href="/">边界之外</a><nav aria-label="主导航">{links.map(([href,label])=><a href={href}>{label}</a>)}</nav><button class="icon-button theme-toggle" type="button" aria-label="切换深浅色模式">◐</button><button class="icon-button menu-button" type="button" aria-label="打开菜单" aria-expanded="false">☰</button></div></header><div class="menu-overlay"></div><aside class="mobile-menu" aria-hidden="true"><button class="menu-close" aria-label="关闭菜单">×</button><p>MENU</p>{links.map(([href,label])=><a href={href}>{label}</a>)}</aside>
+<script>
+  const root=document.documentElement, toggle=document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const paint=()=>{if(toggle) toggle.textContent=root.dataset.theme==='dark'?'☀':'◐'}; paint();
+  toggle?.addEventListener('click',()=>{const next=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=next;localStorage.setItem('theme',next);paint()});
+  const header=document.querySelector('.site-header');let last=scrollY;addEventListener('scroll',()=>{header?.classList.toggle('nav-hidden',scrollY>last&&scrollY>120);last=scrollY},{passive:true});
+  const menu=document.querySelector('.mobile-menu'),overlay=document.querySelector('.menu-overlay'),button=document.querySelector<HTMLButtonElement>('.menu-button');
+  const setMenu=(open:boolean)=>{menu?.classList.toggle('open',open);overlay?.classList.toggle('open',open);menu?.setAttribute('aria-hidden',String(!open));button?.setAttribute('aria-expanded',String(open));document.body.style.overflow=open?'hidden':''};
+  button?.addEventListener('click',()=>setMenu(true));overlay?.addEventListener('click',()=>setMenu(false));document.querySelector('.menu-close')?.addEventListener('click',()=>setMenu(false));menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+</script>

@@ -1,0 +1,4 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";import {getPosts} from "../../lib/posts";const posts=await getPosts();const categories=[...new Set(posts.map(p=>p.data.category))];
+---
+<BaseLayout title="文章分类｜边界之外"><main class="listing-page"><p class="eyebrow">KNOWLEDGE MAP</p><h1>文章分类</h1><div class="taxonomy-grid">{categories.map(c=><a href={`/categories/${encodeURIComponent(c)}/`}><span>{String(posts.filter(p=>p.data.category===c).length).padStart(2,"0")}</span><h2>{c}</h2><p>查看这个主题下的全部记录 →</p></a>)}</div></main></BaseLayout>
