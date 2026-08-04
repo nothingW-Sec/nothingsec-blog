@@ -109,7 +109,7 @@ collections:
         name: series
         widget: string
         required: false
-        hint: 同一组连续文章使用完全相同的系列名称；非系列文章留空。
+        hint: 填写专题名称，例如 SQLLab、红日靶场、TryHackMe，没有专题可以留空。
       - label: 系列顺序
         name: seriesOrder
         widget: number
