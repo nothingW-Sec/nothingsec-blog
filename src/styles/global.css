@@ -123,3 +123,5 @@ body{background-color:#f7f3f0;background-image:linear-gradient(rgba(247,243,240,
 footer{border-top:1px solid rgba(95,90,90,.08);background:linear-gradient(145deg,#f8efef,#efd9dd);color:#5f5a5a}
 .footer-inner a:hover{color:#9e5364}
 @media(max-width:767px){.hero{place-items:center;background:transparent}.hero:before,.hero:after,.hero-pattern{inset:0}.hero-copy{width:auto;max-width:100%;padding:20px;text-align:center}}
+.avatar{overflow:hidden;padding:0}
+.avatar img{width:100%;height:100%;display:block;object-fit:cover}
