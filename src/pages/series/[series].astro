@@ -1,16 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostCard from "../../components/PostCard.astro";
-import { getPosts, type Post } from "../../lib/posts";
-
-function sortSeriesPosts(a: Post, b: Post) {
-  const aOrder = a.data.seriesOrder;
-  const bOrder = b.data.seriesOrder;
-  if (aOrder !== undefined && bOrder !== undefined) return aOrder - bOrder || b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
-  if (aOrder !== undefined) return -1;
-  if (bOrder !== undefined) return 1;
-  return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
-}
+import { getPosts, sortSeriesPosts, type Post } from "../../lib/posts";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
