@@ -1,0 +1,63 @@
+backend:
+  name: github
+  repo: nothingW-Sec/nothingsec-blog
+  branch: main
+  base_url: https://cms-auth.nothingsec.com
+  auth_endpoint: auth
+  auth_scope: public_repo
+  squash_merges: true
+
+publish_mode: editorial_workflow
+locale: zh_Hans
+site_url: https://nothingsec.com
+display_url: https://nothingsec.com
+logo_url: https://nothingsec.com/avatar.webp
+
+media_folder: public/uploads
+public_folder: /uploads
+
+slug:
+  encoding: unicode
+  clean_accents: false
+  sanitize_replacement: "-"
+
+collections:
+  - name: posts
+    label: 文章
+    label_singular: 文章
+    folder: src/content/posts
+    create: true
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    summary: "{{title}} · {{category}} · {{publishDate}}"
+    sortable_fields: [publishDate, updatedDate, title, category]
+    view_filters:
+      - label: 精选文章
+        field: featured
+        pattern: true
+      - label: 草稿
+        field: draft
+        pattern: true
+    fields:
+      - { label: 标题, name: title, widget: string }
+      - { label: 摘要, name: description, widget: text }
+      - { label: 发布时间, name: publishDate, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
+      - { label: 更新时间, name: updatedDate, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD, required: false }
+      - label: 分类
+        name: category
+        widget: select
+        options:
+          - 靶场复盘
+          - 技术学习
+          - 学习感悟
+          - 漏洞分析
+          - Web安全
+          - 内网渗透
+          - 安全工具
+          - 应急响应
+      - { label: 标签, name: tags, widget: list, allow_add: true, collapsed: false, field: { label: 标签, name: tag, widget: string } }
+      - { label: 文章封面, name: cover, widget: image, required: false }
+      - { label: 精选文章, name: featured, widget: boolean, default: false }
+      - { label: 隐藏草稿, name: draft, widget: hidden, default: false }
+      - { label: 正文, name: body, widget: markdown }

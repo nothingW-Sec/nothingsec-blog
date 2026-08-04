@@ -1,0 +1,10 @@
+name = "nothingsec-cms-auth"
+main = "src/index.ts"
+compatibility_date = "2026-08-04"
+
+[vars]
+GITHUB_REPO_PRIVATE = "0"
+
+[[routes]]
+pattern = "cms-auth.nothingsec.com"
+custom_domain = true
