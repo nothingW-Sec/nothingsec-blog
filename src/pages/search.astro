@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="搜索｜边界之外" description="搜索 NothingSec 的安全技术文章、标签与分类。">
+  <main class="listing-page search-page">
+    <p class="eyebrow">SEARCH</p>
+    <h1>搜索知识库</h1>
+    <p class="page-lead">搜索文章标题、摘要、正文、分类和标签。</p>
+    <form class="search-form" role="search">
+      <label for="search-input">搜索关键词</label>
+      <div>
+        <input id="search-input" name="q" type="search" autocomplete="off" placeholder="例如：SQL 注入、HTTP、Burp Suite"/>
+        <button type="submit">搜索</button>
+      </div>
+    </form>
+    <p id="search-status" class="search-status" aria-live="polite">输入关键词开始搜索。</p>
+    <section id="search-results" class="search-results" aria-label="搜索结果"></section>
+  </main>
+</BaseLayout>
+
+<script is:inline type="module">
+  const form = document.querySelector('.search-form');
+  const input = document.querySelector('#search-input');
+  const status = document.querySelector('#search-status');
+  const results = document.querySelector('#search-results');
+  let engine;
+
+  function textElement(tag, className, value) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    element.textContent = value;
+    return element;
+  }
+
+  async function getEngine() {
+    if (!engine) engine = import('/pagefind/pagefind.js');
+    return engine;
+  }
+
+  async function runSearch(query) {
+    results.replaceChildren();
+    if (!query) {
+      status.textContent = '输入关键词开始搜索。';
+      return;
+    }
+    status.textContent = '正在搜索…';
+    try {
+      const pagefind = await getEngine();
+      const response = await pagefind.search(query);
+      const entries = await Promise.all(response.results.slice(0, 30).map((result) => result.data()));
+      status.textContent = entries.length ? `找到 ${response.results.length} 条结果` : `没有找到与“${query}”相关的文章。`;
+      for (const entry of entries) {
+        const article = document.createElement('article');
+        article.className = 'search-result';
+        const link = document.createElement('a');
+        link.href = entry.url;
+        link.append(textElement('h2', '', entry.meta.title || '未命名文章'));
+        article.append(link);
+        const meta = document.createElement('div');
+        meta.className = 'search-result-meta';
+        if (entry.meta.category) meta.append(textElement('span', '', entry.meta.category));
+        if (entry.meta.type) meta.append(textElement('span', '', entry.meta.type));
+        if (entry.meta.tags) meta.append(textElement('span', '', entry.meta.tags));
+        if (meta.childElementCount) article.append(meta);
+        const excerpt = document.createElement('p');
+        excerpt.className = 'search-result-excerpt';
+        excerpt.innerHTML = entry.excerpt;
+        article.append(excerpt);
+        results.append(article);
+      }
+    } catch {
+      status.textContent = '搜索索引尚未生成，请先完成生产构建后再试。';
+    }
+  }
+
+  let timer;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => runSearch(input.value.trim()), 180);
+  });
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    runSearch(input.value.trim());
+  });
+  const initial = new URLSearchParams(location.search).get('q')?.trim() || '';
+  if (initial) {
+    input.value = initial;
+    runSearch(initial);
+  }
+</script>

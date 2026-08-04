@@ -15,6 +15,9 @@ logo_url: https://nothingsec.com/avatar.webp
 
 media_folder: public/uploads
 public_folder: /uploads
+media_library:
+  config:
+    max_file_size: 1048576
 
 slug:
   encoding: unicode
@@ -40,13 +43,18 @@ collections:
         field: draft
         pattern: true
     fields:
-      - { label: 标题, name: title, widget: string }
-      - { label: 摘要, name: description, widget: text }
-      - { label: 发布时间, name: publishDate, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
-      - { label: 更新时间, name: updatedDate, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD, required: false }
+      - label: 标题
+        name: title
+        widget: string
+        hint: 使用清晰、具体的标题，准确说明文章讨论的问题。
+      - label: 摘要
+        name: description
+        widget: text
+        hint: 用一至两句话概括文章内容，并说明读者可以获得什么。
       - label: 分类
         name: category
         widget: select
+        hint: 表示文章研究领域，只选择一个。
         options:
           - 靶场复盘
           - 技术学习
@@ -56,8 +64,93 @@ collections:
           - 内网渗透
           - 安全工具
           - 应急响应
-      - { label: 标签, name: tags, widget: list, allow_add: true, collapsed: false, field: { label: 标签, name: tag, widget: string } }
-      - { label: 文章封面, name: cover, widget: image, required: false }
-      - { label: 精选文章, name: featured, widget: boolean, default: false }
+      - label: 文章类型
+        name: type
+        widget: select
+        required: false
+        hint: 表示文章形式，例如漏洞分析、实验复盘、项目记录。
+        options:
+          - 漏洞分析
+          - 实验复盘
+          - 学习笔记
+          - 工具教程
+          - 项目记录
+      - label: 标签
+        name: tags
+        widget: list
+        allow_add: true
+        collapsed: false
+        min: 1
+        max: 6
+        hint: 填写具体技术、工具或平台名称，至少 1 个，最多 6 个。
+        field: { label: 标签, name: tag, widget: string }
+      - label: 发布时间
+        name: publishDate
+        widget: datetime
+        default: "{{now}}"
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+        hint: 文章首次公开发布的日期，新文章默认使用当前日期。
+      - label: 更新时间
+        name: updatedDate
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+        required: false
+        hint: 仅在文章内容发生实质修改时填写。
+      - label: 最近复核
+        name: lastReviewed
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+        required: false
+        hint: 最近一次确认命令、版本、链接或结论仍然有效的日期。
+      - label: 系列
+        name: series
+        widget: string
+        required: false
+        hint: 同一组连续文章使用完全相同的系列名称；非系列文章留空。
+      - label: 系列顺序
+        name: seriesOrder
+        widget: number
+        value_type: int
+        min: 1
+        required: false
+        hint: 仅当文章属于系列时填写，从 1 开始排序。
+      - label: 难度
+        name: difficulty
+        widget: select
+        required: false
+        hint: 表示读者理解或复现实验所需的知识水平。
+        options:
+          - 入门
+          - 进阶
+          - 高级
+      - label: 平台
+        name: platform
+        widget: string
+        required: false
+        hint: 填写实验或工具平台，例如 DVWA、Hack The Box、Linux 或 Windows。
+      - label: 文章封面
+        name: cover
+        widget: image
+        required: false
+        hint: 推荐上传 WebP 格式，单张图片最大 1 MB。
+      - label: 封面说明
+        name: coverAlt
+        widget: string
+        required: false
+        hint: 简要描述封面内容，用于无障碍访问；没有封面时留空。
+      - label: 精选文章
+        name: featured
+        widget: boolean
+        default: false
+        hint: 开启后文章会进入首页精选区域，默认关闭。
       - { label: 隐藏草稿, name: draft, widget: hidden, default: false }
-      - { label: 正文, name: body, widget: markdown }
+      - label: 正文
+        name: body
+        widget: markdown
+        hint: 使用 Markdown 编写正文；代码块请标注语言，并确保技术操作仅用于授权环境。

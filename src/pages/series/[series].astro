@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPosts, type Post } from "../../lib/posts";
+
+function sortSeriesPosts(a: Post, b: Post) {
+  const aOrder = a.data.seriesOrder;
+  const bOrder = b.data.seriesOrder;
+  if (aOrder !== undefined && bOrder !== undefined) return aOrder - bOrder || b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+  if (aOrder !== undefined) return -1;
+  if (bOrder !== undefined) return 1;
+  return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+}
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const seriesNames = [...new Set(posts.flatMap((post) => post.data.series ? [post.data.series] : []))];
+  return seriesNames.map((series) => ({
+    params: { series },
+    props: {
+      series,
+      posts: posts.filter((post) => post.data.series === series).sort(sortSeriesPosts),
+    },
+  }));
+}
+
+const { series, posts } = Astro.props as { series: string; posts: Post[] };
+---
+<BaseLayout title={`${series}｜文章系列｜边界之外`} description={`${series} 系列共 ${posts.length} 篇文章。`}>
+  <main class="listing-page">
+    <p class="eyebrow">SERIES</p>
+    <h1>{series}</h1>
+    <p class="page-lead">本系列共 {posts.length} 篇文章。</p>
+    <div class="post-list">{posts.map((post) => <PostCard post={post}/>)}</div>
+  </main>
+</BaseLayout>

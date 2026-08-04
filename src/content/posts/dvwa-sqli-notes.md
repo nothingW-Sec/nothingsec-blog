@@ -3,8 +3,11 @@ title: "DVWA SQL 注入：从判断到验证的完整路径"
 description: "不只记录成功的 payload，也解释每一步判断背后的依据与容易忽略的错误。"
 publishDate: "2026-07-28"
 updatedDate: "2026-07-30"
-category: "靶场复盘"
-tags: [Web安全, SQL注入, DVWA]
+category: "Web安全"
+type: "实验复盘"
+tags: [SQL注入, DVWA]
+difficulty: "入门"
+platform: "DVWA"
 draft: false
 featured: true
 ---

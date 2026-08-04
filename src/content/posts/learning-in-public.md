@@ -2,7 +2,8 @@
 title: "公开学习的第一个月：少收藏，多复盘"
 description: "从堆积资料转向输出驱动，记录一套更适合长期安全学习的节奏。"
 publishDate: "2026-07-12"
-category: "学习感悟"
+category: "综合研究"
+type: "学习笔记"
 tags: [学习方法, 复盘, 写作]
 draft: false
 featured: false

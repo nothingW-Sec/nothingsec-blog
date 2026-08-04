@@ -2,8 +2,11 @@
 title: "重新理解 HTTP 请求：安全测试中的边界在哪里"
 description: "从请求行、头部到正文，梳理一次请求在代理工具中被观察和修改的全过程。"
 publishDate: "2026-07-21"
-category: "技术学习"
-tags: [HTTP, Web安全, BurpSuite]
+category: "网络与协议"
+type: "学习笔记"
+tags: [HTTP, Burp Suite]
+difficulty: "入门"
+platform: "Burp Suite"
 draft: false
 featured: false
 ---
