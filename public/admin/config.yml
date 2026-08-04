@@ -15,9 +15,6 @@ logo_url: https://nothingsec.com/avatar.webp
 
 media_folder: public/uploads
 public_folder: /uploads
-media_library:
-  config:
-    max_file_size: 1048576
 
 slug:
   encoding: unicode
