@@ -1,6 +1,8 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 export type Post = CollectionEntry<"posts">;
 export async function getPosts() { return (await getCollection("posts", ({data}) => !data.draft)).sort((a,b) => b.data.publishDate.valueOf()-a.data.publishDate.valueOf()); }
+export function postSlug(id: string) { return id.endsWith("/index") ? id.slice(0, -"/index".length) : id; }
+export function postUrl(id: string) { return `/posts/${postSlug(id)}/`; }
 export function sortSeriesPosts(a: Post, b: Post) {
   const aOrder = a.data.seriesOrder;
   const bOrder = b.data.seriesOrder;
