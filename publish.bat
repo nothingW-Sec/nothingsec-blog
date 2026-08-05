@@ -4,7 +4,7 @@ setlocal EnableExtensions DisableDelayedExpansion
 
 rem NothingSec Git synchronization and publishing script.
 rem Purpose: synchronize remote content, commit local changes, and push to GitHub.
-rem Usage: local Astro development when Decap CMS may update remote Markdown first.
+rem Usage: publish local Astro and Markdown changes through GitHub.
 rem Safety: uses rebase and never runs force push, reset, or automatic deletion.
 
 cd /d "%~dp0"

@@ -19,18 +19,19 @@ npm run build
 
 ## 写文章
 
-推荐打开 `https://nothingsec.com/admin/` 使用可视化后台管理文章；也可以复制 `docs/post-template.md` 手动编辑。`draft: true` 的文章不会发布。
+复制 `docs/post-template.md`，在 `src/content/posts/<slug>/index.md` 中编写文章。文章图片放在同目录的 `images/` 中，并使用相对路径引用。
 
-## 文章管理后台
+文章采用 Markdown Frontmatter 管理。`draft: true` 的文章不会生成页面，也不会进入文章列表、RSS、sitemap 或搜索；`draft: false` 或省略 `draft` 时正常发布。
 
-后台使用 Decap CMS 管理 `src/content/posts`，图片上传到 `public/uploads`。采用“草稿 → 审核中 → 发布”的编辑工作流，发布时会由 GitHub 提交并触发 Cloudflare Pages 自动部署。
+## 发布文章
 
-首次启用前需要部署 `cms-auth-worker` 并创建 GitHub OAuth App：
+完成本地检查后，可以运行：
 
-- Homepage URL：`https://cms-auth.nothingsec.com`
-- Authorization callback URL：`https://cms-auth.nothingsec.com/callback`
+```bat
+publish.bat
+```
 
-具体命令见 `cms-auth-worker/README.md`。OAuth Client Secret 只写入 Cloudflare Worker Secret，禁止提交到 GitHub。
+脚本会先通过 `git pull --rebase --autostash` 同步远程修改，再确认、提交并推送本地内容。也可以直接在 GitHub 的 `main` 分支上传符合文章结构的 Markdown 文件。每次推送都会触发 Cloudflare Pages 自动构建和部署。
 
 ## Cloudflare Pages
 

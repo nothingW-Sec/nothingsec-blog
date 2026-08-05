@@ -16,6 +16,3 @@ jobs:
       - run: npm run build
         env:
           ASTRO_TELEMETRY_DISABLED: "1"
-      - run: npm ci --prefix cms-auth-worker
-      - run: npm run check --prefix cms-auth-worker
-      - run: npm test --prefix cms-auth-worker
