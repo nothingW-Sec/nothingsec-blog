@@ -155,4 +155,5 @@ footer{border-top:1px solid rgba(95,90,90,.08);background:linear-gradient(145deg
 .search-result-meta span{padding:1px 8px;border-radius:999px;background:var(--primary-soft);color:var(--primary);font-size:.75rem}
 .search-result-excerpt{margin:10px 0 0;color:var(--text);line-height:1.8}
 .search-result-excerpt mark{border-radius:2px;background:rgba(var(--primary-rgb),.22);color:var(--heading)}
+.prose img{display:block;width:auto;max-width:100%;height:auto;max-height:75vh;margin:20px auto;border-radius:8px;object-fit:contain}
 @media(max-width:480px){.search-form>div{display:grid}.search-form button{width:100%}}
