@@ -7,7 +7,7 @@ backend:
   auth_scope: public_repo
   squash_merges: true
 
-publish_mode: editorial_workflow
+publish_mode: simple
 locale: zh_Hans
 site_url: https://nothingsec.com
 display_url: https://nothingsec.com
@@ -27,6 +27,7 @@ collections:
     label_singular: 文章
     folder: src/content/posts
     create: true
+    delete: false
     extension: md
     format: frontmatter
     path: "{{slug}}/index"
