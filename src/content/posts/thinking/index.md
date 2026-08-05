@@ -1,11 +1,11 @@
 ---
-title: "thinking"
-description: "暂无描述"
-publishDate: "2026-08-05"
-category: "技术学习"
+title: thinking
+description: 暂无描述
+category: 技术学习
+type: 学习笔记
 tags:
   - 思源迁移
-type: "学习笔记"
+publishDate: 2026-08-05
 featured: false
 draft: true
 ---
