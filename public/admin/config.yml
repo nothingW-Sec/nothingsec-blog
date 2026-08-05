@@ -29,6 +29,7 @@ collections:
     create: true
     extension: md
     format: frontmatter
+    path: "{{slug}}/index"
     identifier_field: title
     summary: "{{title}} · {{category}} · {{publishDate}}"
     sortable_fields: [publishDate, updatedDate, title, category]
