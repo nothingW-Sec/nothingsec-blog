@@ -147,7 +147,11 @@ collections:
         widget: boolean
         default: false
         hint: 开启后文章会进入首页精选区域，默认关闭。
-      - { label: 隐藏草稿, name: draft, widget: hidden, default: false }
+      - label: 隐藏草稿
+        name: draft
+        widget: boolean
+        default: true
+        required: false
       - label: 正文
         name: body
         widget: markdown
