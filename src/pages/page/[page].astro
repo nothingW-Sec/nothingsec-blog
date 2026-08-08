@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomeContent from "../../components/HomeContent.astro";
+import { getPosts, type Post } from "../../lib/posts";
+import { getHomePageCount, getHomePagePosts } from "../../lib/homePagination";
+
+interface Props {
+  posts: Post[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export async function getStaticPaths() {
+  const allPosts = await getPosts();
+  const totalPages = getHomePageCount(allPosts.length);
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
+    const currentPage = index + 2;
+    return {
+      params: { page: String(currentPage) },
+      props: {
+        posts: getHomePagePosts(allPosts, currentPage),
+        currentPage,
+        totalPages,
+      },
+    };
+  });
+}
+
+const { posts, currentPage, totalPages } = Astro.props;
+---
+<BaseLayout
+  title={`文章第 ${currentPage} 页｜边界突破`}
+  description={`边界突破的网络安全学习记录，第 ${currentPage} 页。`}
+>
+  <HomeContent posts={posts} currentPage={currentPage} totalPages={totalPages} />
+</BaseLayout>

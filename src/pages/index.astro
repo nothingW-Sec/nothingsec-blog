@@ -1,92 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";import PostCard from "../components/PostCard.astro";import Sidebar from "../components/Sidebar.astro";import {getPosts} from "../lib/posts";const posts=await getPosts();const featuredPosts=posts.filter(post=>post.data.featured).slice(0,3);const heroPhrases=["探索技术边界，记录每一次思考与突破","在授权环境中验证每一种可能","把实验复盘沉淀为可复用的方法","持续学习，持续实践，持续突破"];
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeContent from "../components/HomeContent.astro";
+import { getPosts } from "../lib/posts";
+import { getHomePageCount, getHomePagePosts } from "../lib/homePagination";
+
+const allPosts = await getPosts();
+const totalPages = getHomePageCount(allPosts.length);
+const posts = getHomePagePosts(allPosts, 1);
+const featuredPosts = allPosts.filter((post) => post.data.featured).slice(0, 3);
 ---
-<BaseLayout><main><section class="hero"><div class="hero-pattern"></div><div class="hero-copy"><p class="hero-kicker">SECURITY RESEARCH &amp; FIELD NOTES</p><h1>边界突破</h1><p class="hero-rotator"><span class="hero-rotator-text" data-phrases={JSON.stringify(heroPhrases)} aria-hidden="true">{heroPhrases[0]}</span><span class="sr-only">首页标语会循环展示：{heroPhrases.join("；")}</span></p><a href="/posts/">开始阅读 ↓</a></div></section><div class="content-shell home-layout"><div class="home-main">{featuredPosts.length>0&&<section class="featured-posts" aria-labelledby="featured-title"><p class="eyebrow">FEATURED</p><h2 id="featured-title">精选文章</h2><div class="post-stream">{featuredPosts.map(post=><PostCard post={post}/>)}</div></section>}<section class="post-stream" aria-label="全部文章">{posts.map(post=><PostCard post={post}/>)}</section></div><Sidebar/></div></main></BaseLayout>
-<script>
-  const rotator = document.querySelector<HTMLElement>(".hero-rotator-text");
-
-  if (rotator) {
-    const rotatorElement = rotator;
-    let phrases: string[] = [];
-    try {
-      const parsed = JSON.parse(rotatorElement.dataset.phrases ?? "[]");
-      if (Array.isArray(parsed)) phrases = parsed.filter((item): item is string => typeof item === "string" && item.length > 0);
-    } catch {
-      phrases = [];
-    }
-
-    if (phrases.length > 0) {
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-      let phraseIndex = 0;
-      let characterIndex = 0;
-      let deleting = false;
-      let timerId: number | undefined;
-
-      const schedule = (delay: number) => {
-        if (timerId !== undefined) window.clearTimeout(timerId);
-        timerId = window.setTimeout(step, delay);
-      };
-
-      const showStaticPhrase = () => {
-        if (timerId !== undefined) window.clearTimeout(timerId);
-        timerId = undefined;
-        rotatorElement.textContent = phrases[phraseIndex];
-        rotatorElement.classList.add("is-static");
-      };
-
-      function step() {
-        const characters = Array.from(phrases[phraseIndex]);
-
-        if (!deleting) {
-          characterIndex += 1;
-          rotatorElement.textContent = characters.slice(0, characterIndex).join("");
-          if (characterIndex >= characters.length) {
-            deleting = true;
-            schedule(2000);
-          } else {
-            schedule(90);
-          }
-          return;
-        }
-
-        characterIndex = Math.max(0, characterIndex - 1);
-        rotatorElement.textContent = characters.slice(0, characterIndex).join("");
-        if (characterIndex === 0) {
-          deleting = false;
-          phraseIndex = (phraseIndex + 1) % phrases.length;
-          schedule(400);
-        } else {
-          schedule(45);
-        }
-      }
-
-      if (reducedMotion.matches) {
-        showStaticPhrase();
-      } else {
-        rotatorElement.textContent = "";
-        schedule(450);
-      }
-
-      reducedMotion.addEventListener("change", (event) => {
-        if (event.matches) {
-          showStaticPhrase();
-          return;
-        }
-        rotatorElement.classList.remove("is-static");
-        characterIndex = 0;
-        deleting = false;
-        rotatorElement.textContent = "";
-        schedule(350);
-      });
-
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          if (timerId !== undefined) window.clearTimeout(timerId);
-          timerId = undefined;
-        } else if (!reducedMotion.matches) {
-          schedule(300);
-        }
-      });
-    }
-  }
-</script>
+<BaseLayout>
+  <HomeContent posts={posts} featuredPosts={featuredPosts} currentPage={1} totalPages={totalPages} />
+</BaseLayout>

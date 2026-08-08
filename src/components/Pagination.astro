@@ -1,0 +1,45 @@
+---
+import { homePageUrl } from "../lib/homePagination";
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+}
+
+const { currentPage, totalPages } = Astro.props;
+const pages = [...new Set([1, totalPages, currentPage - 1, currentPage, currentPage + 1])]
+  .filter((page) => page >= 1 && page <= totalPages)
+  .sort((a, b) => a - b);
+
+const items: Array<{ type: "page"; page: number } | { type: "ellipsis"; key: string }> = [];
+for (const page of pages) {
+  const previousPage = items.at(-1);
+  if (previousPage?.type === "page" && page - previousPage.page > 1) {
+    items.push({ type: "ellipsis", key: `${previousPage.page}-${page}` });
+  }
+  items.push({ type: "page", page });
+}
+---
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="文章分页">
+    {currentPage > 1 ? (
+      <a class="pagination-link pagination-arrow" href={homePageUrl(currentPage - 1)} rel="prev" aria-label="上一页">‹</a>
+    ) : (
+      <span class="pagination-link pagination-arrow is-disabled" aria-disabled="true" aria-label="已经是第一页">‹</span>
+    )}
+
+    {items.map((item) => item.type === "ellipsis" ? (
+      <span class="pagination-ellipsis" aria-hidden="true" data-key={item.key}>…</span>
+    ) : item.page === currentPage ? (
+      <span class="pagination-link is-current" aria-current="page" aria-label={`第 ${item.page} 页`}>{item.page}</span>
+    ) : (
+      <a class="pagination-link" href={homePageUrl(item.page)} aria-label={`前往第 ${item.page} 页`}>{item.page}</a>
+    ))}
+
+    {currentPage < totalPages ? (
+      <a class="pagination-link pagination-arrow" href={homePageUrl(currentPage + 1)} rel="next" aria-label="下一页">›</a>
+    ) : (
+      <span class="pagination-link pagination-arrow is-disabled" aria-disabled="true" aria-label="已经是最后一页">›</span>
+    )}
+  </nav>
+)}
