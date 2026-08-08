@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 
 const { series, posts } = Astro.props as { series: string; posts: Post[] };
 ---
-<BaseLayout title={`${series}｜文章系列｜边界之外`} description={`${series} 系列共 ${posts.length} 篇文章。`}>
+<BaseLayout title={`${series}｜文章系列｜边界突破`} description={`${series} 系列共 ${posts.length} 篇文章。`}>
   <main class="listing-page">
     <p class="eyebrow">SERIES</p>
     <h1>{series}</h1>

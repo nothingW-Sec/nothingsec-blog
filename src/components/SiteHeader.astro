@@ -1,7 +1,7 @@
 ---
 const links=[["/","首页"],["/posts/","文章"],["/categories/","分类"],["/tags/","标签"],["/search/","搜索"],["/about/","关于"]];
 ---
-<header class="site-header"><div class="nav-wrap"><a class="brand" href="/">边界之外</a><nav aria-label="主导航">{links.map(([href,label])=><a href={href}>{label}</a>)}</nav><button class="icon-button theme-toggle" type="button" aria-label="切换深浅色模式">◐</button><button class="icon-button menu-button" type="button" aria-label="打开菜单" aria-expanded="false">☰</button></div></header><div class="menu-overlay"></div><aside class="mobile-menu" aria-hidden="true"><button class="menu-close" aria-label="关闭菜单">×</button><p>MENU</p>{links.map(([href,label])=><a href={href}>{label}</a>)}</aside>
+<header class="site-header"><div class="nav-wrap"><a class="brand" href="/">边界突破</a><nav aria-label="主导航">{links.map(([href,label])=><a href={href}>{label}</a>)}</nav><button class="icon-button theme-toggle" type="button" aria-label="切换深浅色模式">◐</button><button class="icon-button menu-button" type="button" aria-label="打开菜单" aria-expanded="false">☰</button></div></header><div class="menu-overlay"></div><aside class="mobile-menu" aria-hidden="true"><button class="menu-close" aria-label="关闭菜单">×</button><p>MENU</p>{links.map(([href,label])=><a href={href}>{label}</a>)}</aside>
 <script>
   const root=document.documentElement, toggle=document.querySelector<HTMLButtonElement>('.theme-toggle');
   const paint=()=>{if(toggle) toggle.textContent=root.dataset.theme==='dark'?'☀':'◐'}; paint();
